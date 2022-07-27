@@ -1,0 +1,82 @@
+#include <vector>
+#include <unordered_map>
+#include <queue>
+#include <iostream>
+using namespace std;
+//题目：给你二叉树的根节点 root 和一个整数目标和 targetSum ，找出所有 从根节点到叶子节点 路径总和等于给定目标和的路径。
+vector<vector<int>> pathSum(TreeNode* root, int targetSum) {}
+
+//解法思路：分别采取递归和非递归方式，从根节点出发遍历完自某个节点起的完整路径后再逐步返回读取其他路径。
+//递归方式
+class Solution {
+private:
+    vector<vector<int>> ans;
+    vector<int> each;
+public:
+    void path(TreeNode* root, int targetSum) {
+        if (root == nullptr) return;
+        //如果为叶节点，则判断是否路径和等于target
+        if (root->left == nullptr && root->right == nullptr) {
+            if (targetSum == root->val) {
+                each.emplace_back(root->val);
+                ans.emplace_back(each);
+                each.pop_back();
+            }
+            return;
+        }
+        //如果非叶节点，则将当前元素值纳入当前路径，然后分别从左右子节点出发探索路径。
+        targetSum -= root->val;
+        each.emplace_back(root->val);
+        path(root->left, targetSum);
+        path(root->right, targetSum);
+        //关键，保证路径返回时抛弃节点值。
+        each.pop_back();
+    }
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        path(root, targetSum);
+        return ans;
+    }
+};
+
+//解法2：非递归方式
+#include <stack>
+using namespace std;
+class Solution {
+private:
+    vector<vector<int>> ans;
+    vector<int> each;
+
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        if (root == nullptr) return ans;
+        //从当前路径返回时，为了保证不重复已读路径，记录节点的状态（1为已探索）
+        stack<pair<TreeNode*, int>> path;
+        path.push({ root,0 });
+        while (!path.empty()) {
+            //首先判断节点是否已探索，若是则弹出节点，寻找下一个未探索节点
+            if (path.top().second == 1) {
+                targetSum += path.top().first->val;
+                path.pop();
+                each.pop_back();
+                continue;
+            }
+            TreeNode* temp = path.top().first;
+            //当前节点若是叶节点，判断是否符合条件。
+            if (temp->left == nullptr && temp->right == nullptr) {
+                if (temp->val == targetSum) {
+                    each.emplace_back(temp->val);
+                    ans.emplace_back(each);
+                    each.pop_back();
+                }
+                path.pop(); continue;
+            }
+            each.emplace_back(temp->val);
+            targetSum -= temp->val;
+            path.top().second = 1;
+            //若不是则分别纳入左节点和右节点，下一步会从右节点开始探索。
+            if (temp->left != nullptr) path.push({ temp->left,0 });
+            if (temp->right != nullptr) path.push({ temp->right,0 });
+        }
+        return ans;
+    }
+};
