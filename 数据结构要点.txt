@@ -1,0 +1,36 @@
+【vector】
+***无需事先设定元素个数
+***include <vector>  using namespace std;
+***添加元素：emplace_back(), push_back();
+***删除末尾元素：pop_back();
+
+
+【哈希表unordered_map】
+***include <unordered_map> std.
+***声明：unordered_map<type1, type2> var_name
+***赋值：var_name[type1]=type2，可以直接进行赋值（无键则创建、有则更改）
+***添加不重复元素：insert(); 
+***查找：at() 根据关键词查找对应的value值，
+***其他的：begin(), end(), empty(), size(), erase（）（迭代器参数或者key）） clear(), 
+
+【队列queue】
+***先进先出
+***include <queue> std.
+***队首元素：front();
+***弹出队首元素：pop();
+***添加元素：emplace();
+
+【栈stack】
+***后进先出
+***include <stack> std
+***队尾元素：top()
+***弹出队尾元素：pop()
+***添加元素：push() emplace()
+***返回栈中元素个数：size()
+***判断栈是否为空：empty()
+***swap(stack & other_stack)：将当前栈中的元素和参数中的元素交换。参数所包含元素的类型必须和当前栈的相同。对于 stack 对象有一个特例化的全局函数 swap() 可以使用。
+
+【集合类set】
+***特点：总是有序的，且不重复，并且插入和删除能在o(lgN)的时间内完成。
+***建立set<int> s、首元素*s.begin()、删除操作s.erase(s.begin())、插入操作s.insert(num)
+
