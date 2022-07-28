@@ -1,0 +1,31 @@
+///题目：给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
+
+///思路：滑动窗口/双指针,对于一个不重复子串，左指针每后移一位子串必定保持不重复，响应移动右指针直到出现重复，因此左指针从字符串下标0开始，直到右指针到达尾部。
+
+class Solution {
+    
+public:
+    int lengthOfLongestSubstring(string s) {
+    //哈希表记录不重复子串的字符
+       unordered_map <char,int> str;
+       int max=0;
+       int len=s.size();
+       int right=0;
+       //left为左指针
+       for (int left=0;left<len;left++){
+           if (left!=0){
+               str.erase(s[left-1]);
+           }
+           //右指针移动至到达最大长度或者第一个重复字符。
+            while(right<len && !str.count(s[right])){
+                str.insert({s[right],1});
+                right++;
+            }
+            //记录长度
+            max= (right-left)>max? (right-left):max;
+            //剪枝
+            if (right==len) break;
+       }
+       return max;
+    }
+};
