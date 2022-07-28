@@ -12,6 +12,9 @@
 ***查找：at() 根据关键词查找对应的value值，
 ***其他的：begin(), end(), empty(), size(), erase（）（迭代器参数或者key）、清空clear()
 ***count()返回某个key的元素个数，由于只有唯一键，因此为0或1，可以据此判断键元素是否存在。 
+***哈希表的遍历：unordered_map<int,int>::iterator iter= xxx.begin();
+                for ( ; iter!=xxx.end();iter++){
+                iter->first=key, iter->second=value.}
 
 【队列queue】
 ***先进先出
