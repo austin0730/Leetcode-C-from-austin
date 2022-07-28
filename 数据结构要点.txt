@@ -9,9 +9,8 @@
 ***include <unordered_map> std.
 ***声明：unordered_map<type1, type2> var_name
 ***添加元素：var_name[type1]=type2，可以直接进行赋值（无键则创建、有则更改）、insert({x,y})重复插入会导致第二次及之后失败; 
-***查找：at() 根据关键词查找对应的value值，
+***查找：count() 根据关键词查找是否存在。count()返回某个key的元素个数，由于只有唯一键，因此为0或1，可以据此判断键元素是否存在。 
 ***其他的：begin(), end(), empty(), size(), erase（）（迭代器参数或者key）、清空clear()
-***count()返回某个key的元素个数，由于只有唯一键，因此为0或1，可以据此判断键元素是否存在。 
 ***哈希表的遍历：unordered_map<int,int>::iterator iter= xxx.begin();
                 for ( ; iter!=xxx.end();iter++){
                 iter->first=key, iter->second=value.}
