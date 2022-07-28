@@ -8,10 +8,10 @@
 【哈希表unordered_map】
 ***include <unordered_map> std.
 ***声明：unordered_map<type1, type2> var_name
-***赋值：var_name[type1]=type2，可以直接进行赋值（无键则创建、有则更改）
-***添加不重复元素：insert(); 
+***添加元素：var_name[type1]=type2，可以直接进行赋值（无键则创建、有则更改）、insert({x,y})重复插入会导致第二次及之后失败; 
 ***查找：at() 根据关键词查找对应的value值，
-***其他的：begin(), end(), empty(), size(), erase（）（迭代器参数或者key）） clear(), 
+***其他的：begin(), end(), empty(), size(), erase（）（迭代器参数或者key）、清空clear()
+***count()返回某个key的元素个数，由于只有唯一键，因此为0或1，可以据此判断键元素是否存在。 
 
 【队列queue】
 ***先进先出
