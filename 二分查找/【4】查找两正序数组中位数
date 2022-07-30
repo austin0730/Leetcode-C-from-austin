@@ -1,0 +1,34 @@
+//题目：给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。算法的时间复杂度应该为 O(log (m+n)) 。
+
+//解法思路：
+（1）奇数数组中位数为中间值，偶数数组中位数为计算所得，因此需要分别找到中位数左值和右值；
+（2）从（m+n）/2开始，两个数组进行同样幅度的二分，即nums1和nums2第一步都是找第（m+n）/4个数，将两数（设为a和b）进行比较，此时有(m+n)/4个数小于a，（m+n）/4个数小于b，
+若a<b,则中位数必然介于a和b之间，此时nums1中小于a的数都可以直接抛弃，然后对nums1剩余元素和nums2进行寻找中位数，注意此时(m+n)/4个数已经被抛弃，则中位数为剩余合并数组的
+第(m+n)/4个数，由此对(m+n)继续进行二分。上述步骤概括为，确定每次寻找第i个元素——比较两数组的第i元素——抛弃较小值的0-i个元素，重复流程，i=i/2.
+（3）除了思路独特以外（对两个数组分别进行同等幅度的索值），本题难点还在于边界条件。
+
+
+class Solution {
+public:
+//抄作业版本
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int m=nums1.size();
+        int n=nums2.size();
+        int left=(m+n+1)/2;
+        int right=(m+n+2)/2;
+        return (findKth(nums1,0,nums2,0,left)+findKth(nums1,0,nums2,0,right))/2.0;
+    };
+    int findKth(vector<int>& nums1, int i, vector<int>& nums2, int j, int k){
+        if (i>=nums1.size()) return nums2[j+k-1];
+        if (j>=nums2.size()) return nums1[i+k-1];
+        if (k==1) return min(nums1[i], nums2[j]);
+        int value1= (i+k/2-1)<nums1.size()? nums1[i+k/2-1]: INT_MAX;
+        int value2= (j+k/2-1)<nums2.size()? nums2[j+k/2-1]: INT_MAX;
+        if (value1< value2)
+        return findKth(nums1, i+k/2, nums2, j, k-k/2);
+        else
+        {
+            return findKth(nums1, i, nums2, j+k/2, k-k/2);
+        }
+    }
+};
