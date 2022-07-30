@@ -5,7 +5,7 @@
 （2）从（m+n）/2开始，两个数组进行同样幅度的二分，即nums1和nums2第一步都是找第（m+n）/4个数，将两数（设为a和b）进行比较，此时有(m+n)/4个数小于a，（m+n）/4个数小于b，
 若a<b,则中位数必然介于a和b之间，此时nums1中小于a的数都可以直接抛弃，然后对nums1剩余元素和nums2进行寻找中位数，注意此时(m+n)/4个数已经被抛弃，则中位数为剩余合并数组的
 第(m+n)/4个数，由此对(m+n)继续进行二分。上述步骤概括为，确定每次寻找第i个元素——比较两数组的第i元素——抛弃较小值的0-i个元素，重复流程，i=i/2.
-（3）除了思路独特以外（对两个数组分别进行同等幅度的索值），本题难点还在于边界条件。
+（3）除了思路独特以外（对两个数组分别进行同等幅度的索值），本题难点还在于边界条件（中位数的位置公式）。
 
 
 class Solution {
@@ -14,14 +14,20 @@ public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         int m=nums1.size();
         int n=nums2.size();
+        //如果是奇数，中位数位置（从1开始）为n/2+1=(n+1)/2=(n+2)/2;如果是偶数，左中位数为n/2=(n+1)/2,右中位数为n/2+1=(n+2)/2.
+        //因此可以概括为左中位数=(n+1)/2,右中位数=(n+2)/2,奇数数组左右中位数一致。
         int left=(m+n+1)/2;
         int right=(m+n+2)/2;
         return (findKth(nums1,0,nums2,0,left)+findKth(nums1,0,nums2,0,right))/2.0;
     };
+    //数组1从int i位置开始找值，寻找第k/2个数
     int findKth(vector<int>& nums1, int i, vector<int>& nums2, int j, int k){
+    //终止条件1：如果起始位置超出数组，则直接返回另一个数组的数即可。
         if (i>=nums1.size()) return nums2[j+k-1];
         if (j>=nums2.size()) return nums1[i+k-1];
+    //终止条件2：k为1，即找两数组中最小的数。
         if (k==1) return min(nums1[i], nums2[j]);
+        //如果数组要找的数超出位置，则另一个数组前k/2个数必然非中位数（抛弃）
         int value1= (i+k/2-1)<nums1.size()? nums1[i+k/2-1]: INT_MAX;
         int value2= (j+k/2-1)<nums2.size()? nums2[j+k/2-1]: INT_MAX;
         if (value1< value2)
