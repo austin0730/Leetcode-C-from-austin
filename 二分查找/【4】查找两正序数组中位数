@@ -41,9 +41,11 @@ public:
 
 
 //（官方解法二）时间复杂度降低至log(min(m,n))
+//解法思路：在较短数组中寻找分界点i，（对应长数组中分界点(m+n）/2-i),使得两个数组中左分组的最大值小于右分组的最小值，从而得到中位数。
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+    //保证第一个数组为较短数组。
         if (nums1.size() > nums2.size()) {
             return findMedianSortedArrays(nums2, nums1);
         }
@@ -70,8 +72,10 @@ public:
             if (nums_im1 <= nums_j) {
                 median1 = max(nums_im1, nums_jm1);
                 median2 = min(nums_i, nums_j);
+                //若小于，表明nums1[i-1]至少小于(m+n)/2个数，为中位数下界。
                 left = i + 1;
             } else {
+                //若大于，则为上界
                 right = i - 1;
             }
         }
